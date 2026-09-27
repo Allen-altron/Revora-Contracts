@@ -939,6 +939,26 @@ pub struct SanctionsAttestation {
     pub attested_at: u64,
 }
 
+/// Snapshot pin persisted alongside a single per-offering blacklist entry.
+///
+/// Written only by `blacklist_add_pinned`, which binds a blacklist entry to the
+/// signed off-chain sanctions list that justified it:
+///
+/// - `snapshot_hash`: SHA-256 hash of the signed snapshot the entry was drawn from.
+/// - `added_ts`: ledger timestamp at which the entry was pinned.
+///
+/// The pair is read back by `get_blacklist_entry_meta`. Entries added through the
+/// unpinned paths (`blacklist_add`, `blacklist_add_with_attestation`,
+/// `blacklist_add_many`) deliberately carry no metadata, so a `None` result means
+/// "never pinned" and not "not blacklisted" - callers must consult
+/// `is_blacklisted` for membership.
+#[contracttype]
+#[derive(Clone, Debug, PartialEq)]
+pub struct BlacklistEntryMeta {
+    pub snapshot_hash: BytesN<32>,
+    pub added_ts: u64,
+}
+
 /// Domain-separated attestation for `transfer_with_attestation`.
 ///
 /// The `network_id` field acts as a domain separator that cryptographically
