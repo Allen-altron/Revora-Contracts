@@ -31,7 +31,7 @@ use crate::{
 use soroban_sdk::{
     symbol_short,
     testutils::{Address as _, Ledger as _},
-    Address, BytesN, Env, Symbol, Vec,
+    Address, BytesN, Env, Vec,
 };
 
 /// Deterministic 32-byte snapshot hash so assertions never depend on randomness.
